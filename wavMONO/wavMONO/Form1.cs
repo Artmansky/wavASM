@@ -21,9 +21,36 @@ namespace wavMONO
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        static string AppendMonoToFileName(string originalFileName)
         {
-            label1.Text = MyProc1(3,8).ToString();
+            string extension = System.IO.Path.GetExtension(originalFileName);
+            string fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(originalFileName);
+
+            string modifiedFileName = $"{fileNameWithoutExtension}_mono{extension}";
+
+            string modifiedFilePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(originalFileName), modifiedFileName);
+
+            return modifiedFilePath;
         }
+
+        private void FileButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "WAV Files (*.wav)|*.wav";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string inputName = openFileDialog.FileName;
+                string outputName = AppendMonoToFileName(inputName);
+                
+                label1.Text = outputName;
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
