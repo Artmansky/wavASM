@@ -67,5 +67,35 @@ namespace wavMONO
         {
 
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index  = checkedListBox1.SelectedIndex;
+
+            int count = checkedListBox1.Items.Count;
+
+            for(int x = 0; x < count; x++)
+            {
+                if(index  != x)
+                {
+                    checkedListBox1.SetItemChecked(x, false);
+                }
+            }
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
