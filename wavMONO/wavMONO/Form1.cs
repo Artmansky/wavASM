@@ -20,6 +20,9 @@ namespace wavMONO
         public Form1()
         {
             InitializeComponent();
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
         }
 
         static string AppendMonoToFileName(string originalFileName)
@@ -44,13 +47,10 @@ namespace wavMONO
             {
                 string inputName = openFileDialog.FileName;
                 string outputName = AppendMonoToFileName(inputName);
-
                 try
                 {
                     wavBytes = File.ReadAllBytes(inputName);
 
-                 
-                   
                     File.WriteAllBytes(outputName, wavBytes);
                   
                 }
@@ -63,6 +63,9 @@ namespace wavMONO
             }
         }
 
-        
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
