@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace wavMONO
 {
@@ -35,6 +36,7 @@ namespace wavMONO
 
         private void FileButton_Click(object sender, EventArgs e)
         {
+            byte[] wavBytes;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "WAV Files (*.wav)|*.wav";
 
@@ -42,15 +44,25 @@ namespace wavMONO
             {
                 string inputName = openFileDialog.FileName;
                 string outputName = AppendMonoToFileName(inputName);
+
+                try
+                {
+                    wavBytes = File.ReadAllBytes(inputName);
+
+                 
+                   
+                    File.WriteAllBytes(outputName, wavBytes);
+                  
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 
-                label1.Text = outputName;
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        
     }
 }
