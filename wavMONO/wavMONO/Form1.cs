@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using NAudio.Wave;
@@ -16,7 +9,7 @@ namespace wavMONO
     public partial class Form1 : Form
     {
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavASM.dll")]
-        static extern int MyProc1(int a, int b);
+        static extern short MyProc1(short rightChannel, short leftChannel);
 
         public Form1()
         {
@@ -46,6 +39,7 @@ namespace wavMONO
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                DateTime startTime = DateTime.Now;
                 string inputName = openFileDialog.FileName;
                 string outputName = AppendMonoToFileName(inputName);
                 try
@@ -76,7 +70,13 @@ namespace wavMONO
                         }
 
                         SaveAsWav(outputName, wavBytes, sampleRate);
-                    }
+
+                        DateTime endTime = DateTime.Now;
+
+                        TimeSpan elapsedTime = endTime - startTime;
+
+                        label14.Text = $"{elapsedTime.TotalMilliseconds:F2} ms";
+                    }               
                 }
                 catch (Exception ex)
                 {
@@ -87,49 +87,28 @@ namespace wavMONO
 
         static void SaveAsWav(string filePath, byte[] audioData, int sampleRate)
         {
-            // Specify the audio format for the mono WAV file
             WaveFormat waveFormat = new WaveFormat(sampleRate, 16, 1);
 
-            // Create a WaveFileWriter to write the mono WAV file
             using (WaveFileWriter waveWriter = new WaveFileWriter(filePath, waveFormat))
             {
                 waveWriter.Write(audioData, 0, audioData.Length);
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index  = checkedListBox1.SelectedIndex;
+            int index = checkedListBox1.SelectedIndex;
 
             int count = checkedListBox1.Items.Count;
 
-            for(int x = 0; x < count; x++)
+            for (int x = 0; x < count; x++)
             {
-                if(index  != x)
+                if (index != x)
                 {
                     checkedListBox1.SetItemChecked(x, false);
                 }
             }
         }
 
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
