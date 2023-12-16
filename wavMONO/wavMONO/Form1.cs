@@ -50,51 +50,45 @@ namespace wavMONO
                 string outputName = AppendMonoToFileName(inputName);
                 try
                 {
-                    wavBytes = File.ReadAllBytes(inputName);
+                    using (FileStream fileStream = new FileStream(inputName, FileMode.Open, FileAccess.Read))
+                    using (BinaryReader reader = new BinaryReader(fileStream))
+                    {
+                        var header = reader.ReadBytes(44);
 
-                    // Convert stereo WAV to mono by taking only the left channel
-                    byte[] monoBytes = ConvertStereoToMono(wavBytes);
+                        int sampleRate = BitConverter.ToInt32(header, 24);
 
-                    
-                    SaveAsWav(outputName, monoBytes);
+                        int bytesPerSample = 2;
+                        int numChannels = 2;
+                        int bytesPerFrame = bytesPerSample * numChannels;
 
+                        int remainingBytes = (int)(fileStream.Length - header.Length);
+                        int framesToRead = remainingBytes / bytesPerFrame;
+                        wavBytes = new byte[framesToRead * bytesPerSample];
 
+                        for (int i = 0; i < framesToRead; i++)
+                        {
+                            short leftSample = reader.ReadInt16();
+                            short rightSample = reader.ReadInt16();
 
+                            short monoSample = (short)((leftSample + rightSample) / 2);
 
+                            BitConverter.GetBytes(monoSample).CopyTo(wavBytes, i * bytesPerSample);
+                        }
 
-
+                        SaveAsWav(outputName, wavBytes, sampleRate);
+                    }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-                
             }
         }
 
-        static byte[] ConvertStereoToMono(byte[] data)
-        {
-            byte[] newData = new byte[data.Length / 2];
-
-            for (int i = 0; i < data.Length / 4; ++i)
-            {
-                int HI = 1; int LO = 0;
-                short left = (short)((data[i * 4 + HI] << 8) | (data[i * 4 + LO] & 0xff));
-                short right = (short)((data[i * 4 + 2 + HI] << 8) | (data[i * 4 + 2 + LO] & 0xff));
-                int avg = (left + right) / 2;
-
-                newData[i * 2 + HI] = (byte)((avg >> 8) & 0xff);
-                newData[i * 2 + LO] = (byte)((avg & 0xff));
-            }
-
-            return newData;
-        }
-
-        static void SaveAsWav(string filePath, byte[] audioData)
+        static void SaveAsWav(string filePath, byte[] audioData, int sampleRate)
         {
             // Specify the audio format for the mono WAV file
-            WaveFormat waveFormat = new WaveFormat(44100, 16, 1); // 44.1 kHz, 16-bit, mono
+            WaveFormat waveFormat = new WaveFormat(sampleRate, 16, 1);
 
             // Create a WaveFileWriter to write the mono WAV file
             using (WaveFileWriter waveWriter = new WaveFileWriter(filePath, waveFormat))
