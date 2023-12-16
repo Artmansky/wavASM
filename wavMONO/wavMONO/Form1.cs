@@ -51,7 +51,14 @@ namespace wavMONO
                 {
                     wavBytes = File.ReadAllBytes(inputName);
 
-                    File.WriteAllBytes(outputName, wavBytes);
+                    byte[] bytes = new byte[wavBytes.Length/2];
+
+                    for(int i = 0; i< wavBytes.Length/2; i++)
+                    {
+                        bytes[i] = wavBytes[wavBytes.Length/2 + i];
+                    }
+
+                    File.WriteAllBytes(outputName, bytes);
                   
                 }
                 catch (Exception ex)
