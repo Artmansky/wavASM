@@ -150,7 +150,7 @@
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Items.AddRange(new object[] {
             "ASM",
-            "C#"});
+            "C++"});
             this.checkedListBox1.Location = new System.Drawing.Point(15, 50);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(154, 109);
@@ -171,9 +171,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(605, 103);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(46, 13);
+            this.label10.Size = new System.Drawing.Size(51, 13);
             this.label10.TabIndex = 13;
-            this.label10.Text = "C# time:";
+            this.label10.Text = "C++ time:";
             // 
             // label11
             // 
@@ -205,18 +205,16 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(674, 79);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(41, 13);
+            this.label14.Size = new System.Drawing.Size(0, 13);
             this.label14.TabIndex = 17;
-            this.label14.Text = "label14";
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(677, 103);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(41, 13);
+            this.label15.Size = new System.Drawing.Size(0, 13);
             this.label15.TabIndex = 18;
-            this.label15.Text = "label15";
             // 
             // Form1
             // 
