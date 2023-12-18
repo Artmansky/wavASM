@@ -10,43 +10,35 @@ namespace wavMONO
 {
     internal class ProcessHandler
     {
+        private FileReader reading;
+        private byte[] wavBytes;
+        private int bytesPerSample = 2;
+        private int numChannels = 2;
         public int sampleRate { get; set; }
 
-        public ProcessHandler() {
-            sampleRate = 0;    
+        public ProcessHandler()
+        {
+            sampleRate = 0;
+            reading = new FileReader();
         }
         public byte[] Process(string inputName, string outputName)
         {
-            byte[] wavBytes;
             try
             {
-                using (FileStream fileStream = new FileStream(inputName, FileMode.Open, FileAccess.Read))
-                using (BinaryReader reader = new BinaryReader(fileStream))
+                int bytesPerFrame = bytesPerSample * numChannels;
+                reading.ReadFileAsByteArray(inputName, bytesPerFrame);
+                sampleRate = reading.sampleRate;
+
+                wavBytes = new byte[bytesPerFrame * (reading.framesToRead * bytesPerSample)];
+
+                for (int i = 0; i < reading.arraySize; i++)
                 {
-                    var header = reader.ReadBytes(44);
+                    short monoSample = (short)((reading.leftSample[i] + reading.rightSample[i]) / 2);
 
-                    sampleRate = BitConverter.ToInt32(header, 24);
-
-                    int bytesPerSample = 2;
-                    int numChannels = 2;
-                    int bytesPerFrame = bytesPerSample * numChannels;
-
-                    int remainingBytes = (int)(fileStream.Length - header.Length);
-                    int framesToRead = remainingBytes / bytesPerFrame;
-                    wavBytes = new byte[framesToRead * bytesPerSample];
-
-                    for (int i = 0; i < framesToRead; i++)
-                    {
-                        short leftSample = reader.ReadInt16();
-                        short rightSample = reader.ReadInt16();
-
-                        short monoSample = (short)((leftSample + rightSample) / 2);
-
-                        BitConverter.GetBytes(monoSample).CopyTo(wavBytes, i * bytesPerSample);
-                    }
-
-                    return wavBytes;
+                    BitConverter.GetBytes(monoSample).CopyTo(wavBytes, i * bytesPerSample);
                 }
+
+                return wavBytes;
             }
             catch (Exception ex)
             {
