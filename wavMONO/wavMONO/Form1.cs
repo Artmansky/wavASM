@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Media;
 using System.Windows.Forms;
 
 namespace wavMONO
@@ -7,13 +8,19 @@ namespace wavMONO
     {
         private SaveAsWav saver;
         private ProcessHandler processing;
+        private string outputName;
+        private bool isPlaying;
 
         public Form1()
         {
             InitializeComponent();
+
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
+
+            button1.Enabled = false;
+            isPlaying = false;
 
             processing = new ProcessHandler();
             saver = new SaveAsWav();
@@ -29,7 +36,7 @@ namespace wavMONO
             {
                 DateTime startTime = DateTime.Now;
                 string inputName = openFileDialog.FileName;
-                string outputName = saver.AppendMonoToFileName(inputName);
+                outputName = saver.AppendMonoToFileName(inputName);
 
                 wavBytes = processing.Process(inputName, outputName);
 
@@ -40,6 +47,7 @@ namespace wavMONO
                 TimeSpan elapsedTime = endTime - startTime;
 
                 label14.Text = $"{elapsedTime.TotalMilliseconds:F2} ms";
+                button1.Enabled = true;
             }
         }
 
@@ -58,5 +66,19 @@ namespace wavMONO
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (SoundPlayer player = new SoundPlayer(outputName))
+                if (isPlaying)
+                {
+                    player.Stop();
+                    isPlaying = false;
+                }
+                else
+                {
+                    player.Play();
+                    isPlaying = true;
+                }
+        }
     }
 }

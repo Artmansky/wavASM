@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace wavMONO
@@ -21,6 +17,9 @@ namespace wavMONO
             sampleRate = 0;
             reading = new FileReader();
         }
+
+        [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavASM.dll")]
+        static extern short MyProc1(short rightChannel, short leftChannel);
         public byte[] Process(string inputName, string outputName)
         {
             try
