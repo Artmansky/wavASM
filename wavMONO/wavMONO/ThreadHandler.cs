@@ -11,7 +11,7 @@ namespace wavMONO
             threads = threadCount;
         }
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavASM.dll")]
-        static extern void ASMtoMONO(short[] rightChannel, short[] leftChannel, int size);
+        static extern void ASMtoMONO(short[] rightChannel, short[] leftChannel, int startIndex, int endIndex);
 
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavCPP.dll")]
         static extern void stereoToMono(short[] leftChannel, short[] rightChannel, int startIndex, int endIndex);
@@ -30,7 +30,7 @@ namespace wavMONO
                 {
                     if (isASM)
                     {
-                        ASMtoMONO(leftChannel, rightChannel, size);
+                        ASMtoMONO(leftChannel, rightChannel, startIndex, endIndex);
                     }
                     else
                     {
@@ -53,7 +53,7 @@ namespace wavMONO
             {
                 if (isASM)
                 {
-                    ASMtoMONO(rightChannel, leftChannel, size);
+                    ASMtoMONO(rightChannel, leftChannel, remainingStartIndex , size);
                 }
                 else
                 {
