@@ -20,6 +20,9 @@ namespace wavMONO
 
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavASM.dll")]
         static extern short MyProc1(short rightChannel, short leftChannel);
+
+        [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavCPP.dll")]
+        static extern void stereoToMono(short[] leftChannel, short[] rightChannel, int size);
         public byte[] Process(string inputName, string outputName)
         {
             try
@@ -28,13 +31,13 @@ namespace wavMONO
                 reading.ReadFileAsByteArray(inputName, bytesPerFrame);
                 sampleRate = reading.sampleRate;
 
-                wavBytes = new byte[bytesPerFrame * (reading.framesToRead * bytesPerSample)];
+                wavBytes = new byte[reading.framesToRead * bytesPerSample];
+
+                stereoToMono(reading.leftSample,reading.rightSample,reading.arraySize);
 
                 for (int i = 0; i < reading.arraySize; i++)
                 {
-                    short monoSample = (short)((reading.leftSample[i] + reading.rightSample[i]) / 2);
-
-                    BitConverter.GetBytes(monoSample).CopyTo(wavBytes, i * bytesPerSample);
+                    BitConverter.GetBytes(reading.leftSample[i]).CopyTo(wavBytes, i * bytesPerSample);
                 }
 
                 return wavBytes;
