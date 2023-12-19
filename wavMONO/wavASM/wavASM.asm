@@ -1,33 +1,29 @@
 .code
 ASMtoMONO proc
-
-	;size
-	mov rbx, r8
-	mov r11, rbx
+    ;wyzerowanie licznika
+	mov r8, 0 
 
 mainLoop:
-	cmp r11, 0
-	je endLoop
+    ;jezeli licznik jest rowny rozmiarowi tabeli koniec
+	cmp r8, r11
+    je endLoop
 
-	movdqu xmm0, oword ptr[rcx]
-	
-	movdqu xmm1, oword ptr[rdx]
+    ;ladowanie prawego i lewego kanalu audio
+    movq xmm0, qword ptr [rcx + r8*2]
+    movq xmm1, qword ptr [rdx + r8*2]  
 
-	punpcklwd xmm0, xmm0 ; Unpack low words (shorts) to integers
-    punpcklwd xmm1, xmm1 ; Unpack low words (shorts) to integers
+    ;dodawanie do siebie prawego i lewego kanalu
+    paddsw xmm0, xmm1
 
-	paddsw xmm0, xmm1 ; Add packed signed words
+    ;dzielenie dodanych kanalow przez 2 poprzed przesuniecie w prawo o 1
+    psrldq xmm0, 1
 
-	psrldq xmm0, 2 ; Shift 2 bytes (1 short)
+    ;wynik operacji zapisany w lewym kanale
+    movq qword ptr [rcx + r8*2], xmm0
 
-	packuswb xmm0, xmm0 ; Pack result to words (shorts)
-
-    movdqu oword ptr [rcx], xmm0
-
-	add rcx, 16
-	add rdx, 16
-	sub r11, 8
-	jmp mainLoop
+    ;inkrementacja licznika
+    inc r8
+    jmp mainLoop
 endLoop:
 	ret
 ASMtoMONO endp

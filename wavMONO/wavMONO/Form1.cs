@@ -19,7 +19,8 @@ namespace wavMONO
             MaximizeBox = false;
             MinimizeBox = false;
 
-            button1.Enabled = false;
+            PlaySound.Enabled = false;
+            ASMCheck.Checked = true;
             isPlaying = false;
 
             processing = new ProcessHandler();
@@ -38,7 +39,7 @@ namespace wavMONO
                 string inputName = openFileDialog.FileName;
                 outputName = saver.AppendMonoToFileName(inputName);
 
-                wavBytes = processing.Process(inputName, outputName);
+                wavBytes = processing.Process(inputName, outputName, ASMCheck.Checked);
 
                 saver.saveFile(outputName, wavBytes, processing.sampleRate);
 
@@ -46,23 +47,16 @@ namespace wavMONO
 
                 TimeSpan elapsedTime = endTime - startTime;
 
-                label14.Text = $"{elapsedTime.TotalMilliseconds:F2} ms";
-                button1.Enabled = true;
-            }
-        }
-
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int index = checkedListBox1.SelectedIndex;
-
-            int count = checkedListBox1.Items.Count;
-
-            for (int x = 0; x < count; x++)
-            {
-                if (index != x)
+                if (ASMCheck.Checked)
                 {
-                    checkedListBox1.SetItemChecked(x, false);
+                    label14.Text = $"{elapsedTime.TotalMilliseconds:F2} ms";
                 }
+                else
+                {
+                    label15.Text = $"{elapsedTime.TotalMilliseconds:F2} ms";
+                }
+
+                PlaySound.Enabled = true;
             }
         }
 
@@ -79,6 +73,27 @@ namespace wavMONO
                     player.Play();
                     isPlaying = true;
                 }
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ASMCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ASMCheck.Checked)
+            {
+                CPPCheck.Checked = false;
+            }
+        }
+
+        private void CPPCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CPPCheck.Checked)
+            {
+                ASMCheck.Checked = false;
+            }
         }
     }
 }

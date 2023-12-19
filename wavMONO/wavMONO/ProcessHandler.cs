@@ -23,7 +23,7 @@ namespace wavMONO
 
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavCPP.dll")]
         static extern void stereoToMono(short[] leftChannel, short[] rightChannel, int size);
-        public byte[] Process(string inputName, string outputName)
+        public byte[] Process(string inputName, string outputName, bool isASM)
         {
             try
             {
@@ -33,7 +33,14 @@ namespace wavMONO
 
                 wavBytes = new byte[reading.framesToRead * bytesPerSample];
 
-                stereoToMono(reading.leftSample,reading.rightSample,reading.arraySize);
+                if (isASM)
+                {
+                    ASMtoMONO(reading.leftSample, reading.rightSample, reading.arraySize);
+                }
+                else
+                {
+                    stereoToMono(reading.leftSample,reading.rightSample, reading.arraySize);
+                }
 
                 for (int i = 0; i < reading.arraySize; i++)
                 {
