@@ -76,13 +76,13 @@
             // 
             // trackBar1
             // 
+            this.trackBar1.LargeChange = 1;
             this.trackBar1.Location = new System.Drawing.Point(12, 381);
-            this.trackBar1.Maximum = 7;
-            this.trackBar1.Minimum = 1;
+            this.trackBar1.Maximum = 6;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(776, 45);
             this.trackBar1.TabIndex = 3;
-            this.trackBar1.Value = 1;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // label2
             // 

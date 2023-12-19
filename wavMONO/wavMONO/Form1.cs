@@ -10,6 +10,7 @@ namespace wavMONO
         private ProcessHandler processing;
         private string outputName;
         private bool isPlaying;
+        private int selectedValue;
 
         public Form1()
         {
@@ -22,6 +23,7 @@ namespace wavMONO
             PlaySound.Enabled = false;
             ASMCheck.Checked = true;
             isPlaying = false;
+            selectedValue = 1;
 
             processing = new ProcessHandler();
             saver = new SaveAsWav();
@@ -39,7 +41,7 @@ namespace wavMONO
                 string inputName = openFileDialog.FileName;
                 outputName = saver.AppendMonoToFileName(inputName);
 
-                wavBytes = processing.Process(inputName, outputName, ASMCheck.Checked);
+                wavBytes = processing.Process(inputName, outputName, ASMCheck.Checked, selectedValue);
 
                 saver.saveFile(outputName, wavBytes, processing.sampleRate);
 
@@ -94,6 +96,12 @@ namespace wavMONO
             {
                 ASMCheck.Checked = false;
             }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            int[] values = { 1, 2, 4, 8, 16, 32, 64 };
+            selectedValue = values[trackBar1.Value];
         }
     }
 }

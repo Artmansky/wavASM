@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace wavMONO
@@ -7,6 +6,7 @@ namespace wavMONO
     internal class ProcessHandler
     {
         private FileReader reading;
+        private ThreadHandler threadning;
         private byte[] wavBytes;
         private int bytesPerSample = 2;
         private int numChannels = 2;
@@ -18,12 +18,7 @@ namespace wavMONO
             reading = new FileReader();
         }
 
-        [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavASM.dll")]
-        static extern void ASMtoMONO(short[] rightChannel, short[] leftChannel, int size);
-
-        [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavCPP.dll")]
-        static extern void stereoToMono(short[] leftChannel, short[] rightChannel, int size);
-        public byte[] Process(string inputName, string outputName, bool isASM)
+        public byte[] Process(string inputName, string outputName, bool isASM, int threads)
         {
             try
             {
@@ -33,14 +28,8 @@ namespace wavMONO
 
                 wavBytes = new byte[reading.framesToRead * bytesPerSample];
 
-                if (isASM)
-                {
-                    ASMtoMONO(reading.leftSample, reading.rightSample, reading.arraySize);
-                }
-                else
-                {
-                    stereoToMono(reading.leftSample,reading.rightSample, reading.arraySize);
-                }
+                threadning = new ThreadHandler(threads);
+                threadning.runConversion(reading.leftSample,reading.rightSample,reading.arraySize,isASM);
 
                 for (int i = 0; i < reading.arraySize; i++)
                 {
