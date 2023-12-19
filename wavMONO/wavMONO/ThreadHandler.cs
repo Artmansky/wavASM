@@ -53,7 +53,7 @@ namespace wavMONO
             {
                 if (isASM)
                 {
-                    ASMtoMONO(rightChannel, leftChannel, remainingSize);
+                    ASMtoMONO(rightChannel, leftChannel, size);
                 }
                 else
                 {
