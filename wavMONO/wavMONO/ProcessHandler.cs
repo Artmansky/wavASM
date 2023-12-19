@@ -19,7 +19,7 @@ namespace wavMONO
         }
 
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavASM.dll")]
-        static extern void MyProc1(short[] rightChannel, short[] leftChannel, int size);
+        static extern void ASMtoMONO(short[] rightChannel, short[] leftChannel, int size);
 
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavCPP.dll")]
         static extern void stereoToMono(short[] leftChannel, short[] rightChannel, int size);
