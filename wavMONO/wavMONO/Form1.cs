@@ -67,11 +67,13 @@ namespace wavMONO
             using (SoundPlayer player = new SoundPlayer(outputName))
                 if (isPlaying)
                 {
+                    PlaySound.Text = "Play MONO";
                     player.Stop();
                     isPlaying = false;
                 }
                 else
                 {
+                    PlaySound.Text = "Stop";
                     player.Play();
                     isPlaying = true;
                 }
