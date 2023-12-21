@@ -23,7 +23,10 @@ namespace wavMONO
             PlaySound.Enabled = false;
             ASMCheck.Checked = true;
             isPlaying = false;
-            selectedValue = 1;
+
+            selectedValue = Environment.ProcessorCount;
+            trackBar1.Value = selectedValue;
+            label17.Text = selectedValue.ToString();
 
             processing = new ProcessHandler();
             saver = new SaveAsWav();
@@ -102,8 +105,8 @@ namespace wavMONO
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            int[] values = { 1, 2, 4, 8, 16, 32, 64 };
-            selectedValue = values[trackBar1.Value];
+            selectedValue = trackBar1.Value;
+            label17.Text = selectedValue.ToString();
         }
     }
 }
