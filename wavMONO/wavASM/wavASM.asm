@@ -23,6 +23,11 @@ mainLoop:
     movq xmm0, qword ptr [rcx + r11*2]
     movq xmm1, qword ptr [rdx + r11*2]  
 
+    ; inkrementacja licznika
+    inc r11
+    jmp mainLoop
+
+endLoop:
     ; dodanie lewego i prawego kana³u
     paddw xmm0, xmm1
 
@@ -31,12 +36,6 @@ mainLoop:
 
     ; zapisanie wyniku operacji w lewym kanale
     movq qword ptr [rcx], xmm0
-
-    ; inkrementacja licznika
-    inc r11
-    jmp mainLoop
-
-endLoop:
     ret
 
 ASMtoMONO endp
