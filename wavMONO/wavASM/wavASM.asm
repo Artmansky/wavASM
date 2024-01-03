@@ -23,17 +23,17 @@ mainLoop:
     movq xmm0, qword ptr [rcx + r11*2]
     movq xmm1, qword ptr [rdx + r11*2]  
 
-    ; inkrementacja licznika
-    inc r11
-    jmp mainLoop
-
-endLoop:
     ; dodanie lewego i prawego kana³u
     paddw xmm0, xmm1
 
     ; przesuniêcie wyniku sumowania o po³owê (dzielenie przez 2)
     psrldq xmm0, 1
 
+    ; inkrementacja licznika
+    inc r11
+    jmp mainLoop
+
+endLoop:
     ; zapisanie wyniku operacji w lewym kanale
     movq qword ptr [rcx], xmm0
     ret
