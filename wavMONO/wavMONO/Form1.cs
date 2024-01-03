@@ -89,17 +89,24 @@ namespace wavMONO
 
         private void ASMCheck_CheckedChanged(object sender, EventArgs e)
         {
-            if (ASMCheck.Checked)
+            if (ASMCheck.Checked == true)
             {
                 CPPCheck.Checked = false;
+            } else if (ASMCheck.Checked == false && CPPCheck.Checked == false)
+            {
+                CPPCheck.Checked = true;
             }
         }
 
         private void CPPCheck_CheckedChanged(object sender, EventArgs e)
         {
-            if (CPPCheck.Checked)
+            if (CPPCheck.Checked == true)
             {
                 ASMCheck.Checked = false;
+            }
+            else if (ASMCheck.Checked == false && CPPCheck.Checked == false)
+            {
+                ASMCheck.Checked = true;
             }
         }
 
