@@ -29,7 +29,7 @@ mainLoop:
 
 endLoop:
     ; dodanie lewego i prawego kana³u
-    paddw xmm0, xmm1
+    addps xmm0, xmm1
 
     ; przesuniêcie wyniku sumowania o po³owê (dzielenie przez 2)
     psrldq xmm0, 1

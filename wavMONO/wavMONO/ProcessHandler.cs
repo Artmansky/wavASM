@@ -18,7 +18,7 @@ namespace wavMONO
             reading = new FileReader();
         }
 
-        public byte[] Process(string inputName, string outputName, bool isASM, int threads)
+        public byte[] Process(string inputName, bool isASM, int threads)
         {
             try
             {

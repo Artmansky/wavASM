@@ -44,7 +44,7 @@ namespace wavMONO
                 string inputName = openFileDialog.FileName;
                 outputName = saver.AppendMonoToFileName(inputName);
 
-                wavBytes = processing.Process(inputName, outputName, ASMCheck.Checked, selectedValue);
+                wavBytes = processing.Process(inputName, ASMCheck.Checked, selectedValue);
 
                 saver.saveFile(outputName, wavBytes, processing.sampleRate);
 
