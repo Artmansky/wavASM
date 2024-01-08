@@ -7,6 +7,13 @@
 ;Author: Tomasz Artmanski
 ;Version: 1.0
 
+; rcx/xmm0 - array of shorts containing values of the left channel
+; rdx/xmm1 - array of shorts containing values of the right channel
+; r8 - int value where designated array starts
+; r9 - int value where designated array ends
+; r11 - iterator of the array
+; r12 - real starting point in array in assembly code
+
 .code
 ASMtoMONO proc
     ; iterator set to 0
