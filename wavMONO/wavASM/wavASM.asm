@@ -45,9 +45,6 @@ mainLoop:
     ; deviding by 2 using bitwise move to right
     psrldq xmm0, 1
 
-    ; saving result to the left channel
-    movq qword ptr [rcx], xmm0
-
     ; incrementing the iterator
     inc r11
     jmp mainLoop
