@@ -39,11 +39,6 @@ mainLoop:
     movq xmm0, qword ptr [rcx + r11*2]
     movq xmm1, qword ptr [rdx + r11*2]
 
-    ; incrementing the iterator
-    inc r11
-    jmp mainLoop
-
-endLoop:
     ; summ of elements from both channels
     addps xmm0, xmm1
 
@@ -52,6 +47,11 @@ endLoop:
 
     ; saving result to the left channel
     movq qword ptr [rcx], xmm0
+
+    ; incrementing the iterator
+    inc r11
+    jmp mainLoop
+endLoop:
     ret
 ASMtoMONO endp
 end
