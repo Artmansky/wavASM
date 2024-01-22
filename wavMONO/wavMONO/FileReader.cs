@@ -18,8 +18,8 @@ namespace wavMONO
     internal class FileReader
     {
         public int arraySize {  get; set; }
-        public short[] leftSample {  get; set; }
-        public short[] rightSample {  get; set; }
+        public int[] leftSample {  get; set; }
+        public int[] rightSample {  get; set; }
         public int sampleRate { get; set; }
         public int framesToRead { get; set; }
 
@@ -41,8 +41,8 @@ namespace wavMONO
                         int remainingBytes = (int)(fileStream.Length - header.Length);
                         framesToRead = remainingBytes / bytesPerFrame; 
 
-                        leftSample = new short[framesToRead];
-                        rightSample = new short[framesToRead];
+                        leftSample = new int[framesToRead];
+                        rightSample = new int[framesToRead];
 
                         int size = 0;
 

@@ -51,15 +51,16 @@ namespace wavMONO
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                DateTime startTime = DateTime.Now;
                 string inputName = openFileDialog.FileName;
                 outputName = saver.AppendMonoToFileName(inputName);
 
+                DateTime startTime = DateTime.Now;
+
                 wavBytes = processing.Process(inputName, ASMCheck.Checked, selectedValue);
 
-                saver.saveFile(outputName, wavBytes, processing.sampleRate);
-
                 DateTime endTime = DateTime.Now;
+
+                saver.saveFile(outputName, wavBytes, processing.sampleRate);
 
                 TimeSpan elapsedTime = endTime - startTime;
 

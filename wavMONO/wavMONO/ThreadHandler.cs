@@ -22,12 +22,12 @@ namespace wavMONO
             threads = threadCount;
         }
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavASM.dll")]
-        static extern void ASMtoMONO(short[] rightChannel, short[] leftChannel, int startIndex, int endIndex);
+        static extern void ASMtoMONO(int[] rightChannel, int[] leftChannel, int startIndex, int endIndex);
 
         [DllImport(@"C:\Users\Tomek\Documents\Asembler\wavMONO\x64\Debug\wavCPP.dll")]
-        static extern void stereoToMono(short[] leftChannel, short[] rightChannel, int startIndex, int endIndex);
+        static extern void stereoToMono(int[] leftChannel, int[] rightChannel, int startIndex, int endIndex);
 
-        public void runConversion(short[] leftChannel, short[] rightChannel, int size, bool isASM)
+        public void runConversion(int[] leftChannel, int[] rightChannel, int size, bool isASM)
         {
             int chunkSize = size / threads;
 
