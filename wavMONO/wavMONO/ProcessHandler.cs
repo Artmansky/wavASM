@@ -10,7 +10,6 @@ Version: 1.0
 */
 
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace wavMONO
@@ -42,22 +41,6 @@ namespace wavMONO
 
                 threadning = new ThreadHandler(threads);
                 threadning.runConversion(reading.leftSample,reading.rightSample,reading.arraySize,isASM);
-
-                // Provide the path to the file where you want to write the data
-                string filePath = "output.txt";
-
-
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    for (int i = 0; i < 100; i++)
-                    {
-                        // Assuming 'leftSample' is an array of integers
-                        int value = reading.leftSample[i];
-
-                        // Write the value to the file
-                        writer.WriteLine(value.ToString());
-                    }
-                }
 
                 for (int i = 0; i < reading.arraySize; i++)
                 {
