@@ -44,6 +44,7 @@ mainLoop:
     ; divide it by 2
     psrad xmm0, 1
 
+    ;store it back into memory
     movd dword ptr [rcx + r11*4], xmm0
 
     ; incrementing the iterator
