@@ -1,6 +1,6 @@
 # wavASM
 
-Another of my University's projects. Written in C#, C++ and MASM64. Program converts stereo WAV file to MONO using chosen technique.
+Written in C#, C++ and MASM64. Program converts stereo WAV file to MONO using chosen technique.
 
 
 
